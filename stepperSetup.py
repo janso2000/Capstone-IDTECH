@@ -11,8 +11,8 @@ class motor:
         self.gpioB = gpioB
         self.pi = pi
         self.callback = callback
-       # encoder = decoder() ##???
-       # encoder.__init__(pi, gpioA, gpioB, callback) #???
+        encoder = decoder() ##???
+        encoder.__init__(pi, gpioA, gpioB, callback) #???
         GPIO.setmode(GPIO.BCM)
         GPIO.setwarnings(False)
         self.CCW = GPIO.output(self.pinDir, GPIO.LOW)
@@ -20,9 +20,7 @@ class motor:
         GPIO.setup(pinDir,GPIO.OUT) # direction
         GPIO.setup(pinStep,GPIO.OUT) # step
         
-		
-"""
-    def go(self, target,speed):
+    def go(self, target, speed):
         self.speed = speed 
         while(encoder.value()!= target)
             #stop, reached goal
@@ -37,9 +35,5 @@ class motor:
             GPIO.output(pinStep, GPIO.LOW)
             sleep(delay)
      
-"""
-	 ##stop???           
-    
-        
-    
 
+	 ##stop???           
