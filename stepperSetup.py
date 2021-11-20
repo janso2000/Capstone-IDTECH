@@ -1,39 +1,62 @@
 #import rotary_encoder
 import time
 import pigpio
-
+import rotary_encoder
+from time import sleep
+import RPi.GPIO as GPIO
 # *****************************************************************************?
 class motor:
-    def __init__(self, pinDir, pinStep, pi, gpioA, gpioB, callback):  
+    def __init__(self, pinDir, pinStep, gpioA, gpioB):  
         self.pinDir = pinDir
         self.pinStep = pinStep
         self.gpioA = gpioA
         self.gpioB = gpioB
-        self.pi = pi
-        self.callback = callback
-        encoder = decoder() ##???
-        encoder.__init__(pi, gpioA, gpioB, callback) #???
+        self.pi = pigpio.pi()
+        self.pos =0
+        self.delay=0
+        def callback(way):
+            # print("callback started")
+            self.pos += way
+            self.encoder.setValue(self.pos)
+            print("pos={}".format(self.encoder.value()))    
+        self.encoder = rotary_encoder.decoder(self.pi, gpioA, gpioB, callback) 
         GPIO.setmode(GPIO.BCM)
         GPIO.setwarnings(False)
-        self.CCW = GPIO.output(self.pinDir, GPIO.LOW)
-        self.CW = GPIO.output(self.pinDir, GPIO.HIGH)
         GPIO.setup(pinDir,GPIO.OUT) # direction
         GPIO.setup(pinStep,GPIO.OUT) # step
         
-    def go(self, target, speed):
-        self.speed = speed 
-        while(encoder.value()!= target)
+    
+    def go(self, target, setSpeed): #note 200 steps per rev for the motor
+        #0 speed will set delay to .01
+        #100 speed will set delay to .000001
+        speed =(.000001 + ((100-setSpeed)*.00009999))
+        
+        self.delay = speed
+        while(self.encoder.value() != target):
             #stop, reached goal
-            if(encoder.value()> target)
+            if(self.encoder.value()> target):
                 #too far! go backwards
-                self.CCW
-            if(encoder.value()< target)
+                GPIO.output(self.pinDir, GPIO.LOW)
+            if(self.encoder.value()< target):
                 #not far enough! keep going
-                self.CW
-            GPIO.output(pinStep, GPIO.HIGH)
-            sleep(delay)
-            GPIO.output(pinStep, GPIO.LOW)
-            sleep(delay)
-     
+                GPIO.output(self.pinDir, GPIO.HIGH)
+            GPIO.output(self.pinStep, GPIO.HIGH)
+            sleep(self.delay)
+            GPIO.output(self.pinStep, GPIO.LOW)
+            sleep(self.delay)
+    
+if __name__ == "__main__":
 
-	 ##stop???           
+   #example code
+	#the following is needed for all motors
+   import time
+   import stepperSetup
+	#the following is needed for each individual motor set up
+   dirx=27
+   stepx=17
+   encoderCHA = 4
+   encoderCHB = 14
+   motorx = stepperSetup.motor(dirx, stepx, encoderCHA, encoderCHB)
+	#all you need to do is use .go(encoder_position, speed)
+   #speed needs to be between 0-100
+   motorx.go(10,20)
