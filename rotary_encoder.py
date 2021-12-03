@@ -8,43 +8,6 @@ class decoder:
 
    def __init__(self, pi, gpioA, gpioB, callback):
 
-      """
-      Instantiate the class with the pi and gpios connected to
-      rotary encoder contacts A and B.  The common contact
-      should be connected to ground.  The callback is
-      called when the rotary encoder is turned.  It takes
-      one parameter which is +1 for clockwise and -1 for
-      counterclockwise.
-
-      EXAMPLE
-
-      import time
-      import pigpio
-
-      import rotary_encoder
-
-      pos = 0
-
-      def callback(way):
-
-         global pos
-
-         pos += way
-
-         print("pos={}".format(pos))
-
-      pi = pigpio.pi()
-
-      decoder = rotary_encoder.decoder(pi, 7, 8, callback)
-
-      time.sleep(300)
-
-      decoder.cancel()
-
-      pi.stop()
-
-      """
-
       self.pi = pi
       self.gpioA = gpioA
       self.gpioB = gpioB
@@ -52,6 +15,7 @@ class decoder:
 
       self.levA = 0
       self.levB = 0
+      self.pos = 0
 
       self.lastGpio = None
 
@@ -96,7 +60,10 @@ class decoder:
          elif gpio == self.gpioB and level == 1:
             if self.levA == 1:
                self.callback(-1)
-
+   def value(self):
+       return self.pos
+   def setValue(self, set_Value):
+       self.pos = set_Value
    def cancel(self):
 
       """
@@ -111,17 +78,23 @@ if __name__ == "__main__":
    import time
    import pigpio
    import rotary_encoder
-
-   pos = 0
-
+   print("Program started")
+   pos=0
+   
    def callback(way):
+     # print("callback started")
       global pos
       pos += way
-      print("pos={}".format(pos))
-
+      decoderx.setValue(pos)
+      print("pos={}".format(decoderx.value()))
+      
+   #print("callback skipped")
    pi = pigpio.pi()
-   decoder = rotary_encoder.decoder(pi, 7, 8, callback)
+   #print("pi set")
+   decoderx = rotary_encoder.decoder(pi, 4, 14, callback)
+   #print("after decoder pos={}".format(pos))
    time.sleep(300)
-   decoder.cancel()
+   #print("after sleep")
+   decoderx.cancel()
    pi.stop()
 
