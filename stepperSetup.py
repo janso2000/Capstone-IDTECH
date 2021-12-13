@@ -17,7 +17,7 @@ class motor:
         self.mm=0
         self.pi = pigpio.pi()
         def callback(way):
-            print("callback started")
+            #print("callback started")
             self.pos += way
             self.encoder.setValue(self.pos)
             print("pos={}".format(self.encoder.value()))
@@ -66,15 +66,24 @@ if __name__ == "__main__":
   # print("motor configured")        
    motory = stepperSetup.motor(26, 13, 25, 16)
    motorz = stepperSetup.motor(22, 23, 19, 20)
-
+   #motori = stepperSetup.motor(18, 17, 27, 2)
+#19
 	#all you need to do is use .go(encoder_position, speed)
    #speed needs to be between 0-100
   
       # motorx.go(25.4,70)
-   #motorx.go(35,70)
-   motory.go(21,70)
-
-   x=0
+   
+   motorz.go(-150,70)
+   sleep(.01)
+   motorz.go(-100,70)
+   motorx.go(-40, 70)
+   motory.go(-30,70)
+   #motorz.go(-150,70)
+   #sleep(.01)
+   #motorz.go(-100,0)
+   motorx.go(35,70)
+   motory.go(20,70)
+  # x=0
   
   
       #motorx.go(-25.4,70)

@@ -4,12 +4,15 @@ import time
 import sys
 
 class strain:
-    def __init__(self, hx1, hx2, hx3):  
+    def __init__(self, hx1, hx2, hx3,refNum):  
         self.hx1 =hx1
         self.hx2 =hx2
         self.hx3 =hx3
+        self.refNum =refNum
     def setUp(self):
-        referenceUnit = 5.67
+        referenceUnit = self.refNum
+        #612 #button
+        #625#chip insert
         EMULATE_HX711=False
         if not EMULATE_HX711:
             import RPi.GPIO as GPIO
