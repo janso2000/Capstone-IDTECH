@@ -8,11 +8,9 @@ class strain:
         self.hx1 =hx1
         self.hx2 =hx2
         self.hx3 =hx3
-        self.refNum =refNum
-    def setUp(self):
+        self.refNum =refNum #this is the calibration number for each strain gauge currently, 613 for the strain gauge and 612 for the Button press
+    def setUp(self): #this MUST be run before getVal()
         referenceUnit = self.refNum
-        #612 #button
-        #625#chip insert
         EMULATE_HX711=False
         if not EMULATE_HX711:
             import RPi.GPIO as GPIO
@@ -20,7 +18,6 @@ class strain:
             
         else:
             from emulated_hx711 import HX711
-        #hx = HX711(27, 17, 128)
         hx = HX711(self.hx1, self.hx2, self.hx3)
         self.hx = hx
         hx.set_reading_format("MSB", "MSB")
@@ -31,13 +28,11 @@ class strain:
         
 
     def getVal(self):   
-        val = self.hx.get_weight(3)
+        val = self.hx.get_weight(3) #this number dictates how many times a measurement is taken (ONLY TAKES ODD NUMBERS!)
         print(val,"g")
-        #self.hx.power_down()
-        #self.hx.power_up()
-        #time.sleep(0.0001)
-        return val
         
+        return val
+#example code
 if __name__ == "__main__":
     
     import strainTay

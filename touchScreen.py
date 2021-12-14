@@ -3,18 +3,15 @@ import stepperSetup
 #import time
 from time import sleep
 import stepperSetupZ
-#import pigpio
+#example code for touchscreen tap to pay scquence
 if __name__ == "__main__":
-    #x=0
-    #pi = pigpio.pi()
+    
     x=0
     y=0
     
     motorzf = stepperSetupZ.motor(22, 23, 19, 20, 5, 6, 612)
-   # motorif = stepperSetupZ.motor(2?2, 2?3, 1?9, 2?0, 27, 17, 625)
     motorz = stepperSetup.motor(22, 23, 19, 20)
-    motorx = stepperSetup.motor(4, 21, 12, 24)
-  # print("motor configured")        
+    motorx = stepperSetup.motor(4, 21, 12, 24)    
     motory = stepperSetup.motor(26, 13, 25, 16)
     
     #go to start
@@ -90,13 +87,5 @@ if __name__ == "__main__":
     
     
     
-    #sleep(.01)
-
-    #motory.go(12,50)
-    #sleep(.01)
-    
-    #motorz.go(-200,70)
-    #motorzf.goTil(8000, -5, 100)
-   # motorz.go(-190,70)
 
 
